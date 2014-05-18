@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="de.morannon.e4JPA.client.rcp" uid="de.morannon.e4JPA.client.rcp.product.id" id="de.morannon.e4JPA.client.rcp.product" application="org.eclipse.e4.ui.workbench.swt.E4Application" version="0.0.1.qualifier" useFeatures="true" includeLaunchers="true">
+
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>-clearPersistedState</programArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <windowImages/>
+
+
+   <launcher name="e4JPAlauncher">
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+
+   <vm>
+   </vm>
+
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="de.morannon.e4JPA.client.feature" version="0.0.1.qualifier"/>
+      <feature id="org.eclipse.e4.rcp" version="1.2.2.v20140206-1358"/>
+      <feature id="org.eclipse.persistence.jpa" version="2.5.1.v20130913-5eaeb06"/>
+      <feature id="org.eclipse.emf.common" version="2.9.2.v20131212-0545"/>
+      <feature id="org.eclipse.emf.ecore" version="2.9.2.v20131212-0545"/>
+   </features>
+
+   <configurations>
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="4" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.osgi" autoStart="true" startLevel="0" />
+   </configurations>
+
+</product>

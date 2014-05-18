@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Database
+Bundle-SymbolicName: de.morannon.e4JPA.database;singleton:=true
+Bundle-Version: 0.0.1.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Import-Package: org.osgi.framework;version="1.3.0"
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.persistence.jpa;bundle-version="2.5.1",
+ javax.persistence,
+ de.morannon.e4JPA.domain;bundle-version="0.0.1"
+Service-Component: OSGI-INF/personservice.xml
+Bundle-ClassPath: lib/jdbc/h2-1.3.175.jar,
+ .
+Export-Package: de.morannon.e4jpa.database

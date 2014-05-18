@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_BTg-0N58EeOz3d8b6E0cvQ" elementId="org.eclipse.e4.ide.application">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_BTg-0d58EeOz3d8b6E0cvQ" selectedElement="_eYHUcN6SEeOz3d8b6E0cvQ" label="de.morannon.e4JPA.client.rcp" iconURI="platform:/plugin/de.morannon.e4JPA.client.rcp/icons/database.png" width="500" height="400">
+    <children xsi:type="advanced:PerspectiveStack" xmi:id="_eYHUcN6SEeOz3d8b6E0cvQ" elementId="de.morannon.e4jpa.client.rcp.perspectivestack.0">
+      <children xsi:type="advanced:Perspective" xmi:id="_fNy_QN6SEeOz3d8b6E0cvQ" elementId="de.morannon.e4jpa.client.rcp.perspective.0">
+        <children xsi:type="basic:PartStack" xmi:id="_VG3rMN6VEeOz3d8b6E0cvQ" elementId="de.morannon.e4jpa.client.rcp.partstack.0">
+          <children xsi:type="basic:Part" xmi:id="_mKCYoN6SEeOz3d8b6E0cvQ" elementId="de.morannon.e4jpa.client.rcp.part.persons" contributionURI="bundleclass://de.morannon.e4JPA.client.rcp/de.morannon.e4JPA.client.rcp.parts.PersonPart" label="Persons">
+            <toolbar xmi:id="_nL9IoN6SEeOz3d8b6E0cvQ" elementId="de.morannon.e4jpa.client.rcp.toolbar.0">
+              <children xsi:type="menu:DirectToolItem" xmi:id="_wPciYN6SEeOz3d8b6E0cvQ" elementId="de.morannon.e4jpa.client.rcp.directtoolitem.0" label="" iconURI="platform:/plugin/de.morannon.e4JPA.client.rcp/icons/user_add.png" tooltip="Add Person" contributionURI="bundleclass://de.morannon.e4JPA.client.rcp/de.morannon.e4JPA.client.rcp.parts.toolitem.AddPerson"/>
+              <children xsi:type="menu:DirectToolItem" xmi:id="_1XyRAN6ZEeOz3d8b6E0cvQ" elementId="de.morannon.e4jpa.client.rcp.directtoolitem.1" label="" iconURI="platform:/plugin/de.morannon.e4JPA.client.rcp/icons/table_refresh.png" tooltip="Refresh Table" contributionURI="bundleclass://de.morannon.e4JPA.client.rcp/de.morannon.e4JPA.client.rcp.parts.toolitem.Refresh"/>
+            </toolbar>
+          </children>
+        </children>
+      </children>
+    </children>
+    <mainMenu xmi:id="__1ii8N6REeOz3d8b6E0cvQ" elementId="de.morannon.e4jpa.client.rcp.menu.0">
+      <children xsi:type="menu:Menu" xmi:id="_BZ8U8N6SEeOz3d8b6E0cvQ" elementId="de.morannon.e4jpa.client.rcp.menu.file" label="File">
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_D0lycN6SEeOz3d8b6E0cvQ" elementId="de.morannon.e4jpa.client.rcp.handledmenuitem.quit" label="Quit" command="_jkxcAN6REeOz3d8b6E0cvQ"/>
+      </children>
+      <children xsi:type="menu:Menu" xmi:id="_JGo64N6SEeOz3d8b6E0cvQ" elementId="de.morannon.e4jpa.client.rcp.menu.help" label="Help">
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_Kd_IUN6SEeOz3d8b6E0cvQ" elementId="de.morannon.e4jpa.client.rcp.handledmenuitem.0" label="About" command="_vvkk8N6REeOz3d8b6E0cvQ"/>
+      </children>
+    </mainMenu>
+  </children>
+  <handlers xmi:id="_38Q5kN6REeOz3d8b6E0cvQ" elementId="de.morannon.e4jpa.client.rcp.handler.quit" contributionURI="bundleclass://de.morannon.e4JPA.client.rcp/de.morannon.e4JPA.client.rcp.handlers.QuitHandler" command="_jkxcAN6REeOz3d8b6E0cvQ"/>
+  <handlers xmi:id="_6QQVcN6REeOz3d8b6E0cvQ" elementId="de.morannon.e4jpa.client.rcp.handler.about" contributionURI="bundleclass://de.morannon.e4JPA.client.rcp/de.morannon.e4JPA.client.rcp.handlers.AboutHandler" command="_vvkk8N6REeOz3d8b6E0cvQ"/>
+  <commands xmi:id="_jkxcAN6REeOz3d8b6E0cvQ" elementId="de.morannon.e4jpa.client.rcp.command.quit" commandName="quitCommand"/>
+  <commands xmi:id="_vvkk8N6REeOz3d8b6E0cvQ" elementId="de.morannon.e4jpa.client.rcp.command.about" commandName="aboutCommand"/>
+  <addons xmi:id="_BTg-0t58EeOz3d8b6E0cvQ" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
+  <addons xmi:id="_BTg-0958EeOz3d8b6E0cvQ" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
+  <addons xmi:id="_BTg-1N58EeOz3d8b6E0cvQ" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>
+  <addons xmi:id="_BTg-1d58EeOz3d8b6E0cvQ" elementId="org.eclipse.e4.ui.workbench.commands.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.CommandProcessingAddon"/>
+  <addons xmi:id="_BTg-1t58EeOz3d8b6E0cvQ" elementId="org.eclipse.e4.ui.workbench.handler.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.HandlerProcessingAddon"/>
+  <addons xmi:id="_BTg-1958EeOz3d8b6E0cvQ" elementId="org.eclipse.e4.ui.workbench.contexts.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.ContextProcessingAddon"/>
+  <addons xmi:id="_BTg-2N58EeOz3d8b6E0cvQ" elementId="org.eclipse.e4.ui.workbench.bindings.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.swt/org.eclipse.e4.ui.workbench.swt.util.BindingProcessingAddon"/>
+</application:Application>

@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Domain
+Bundle-SymbolicName: de.morannon.e4JPA.domain;singleton:=true
+Bundle-Version: 0.0.1.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Require-Bundle: javax.persistence;bundle-version="2.1.0"
+Bundle-ActivationPolicy: lazy
+Export-Package: de.morannon.e4JPA.domain.person
