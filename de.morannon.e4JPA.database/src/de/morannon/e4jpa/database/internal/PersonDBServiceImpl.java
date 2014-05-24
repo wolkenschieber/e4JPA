@@ -1,6 +1,7 @@
 package de.morannon.e4jpa.database.internal;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,14 +15,38 @@ import javax.persistence.criteria.Root;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 
 import de.morannon.e4JPA.domain.person.Person;
+import de.morannon.e4jpa.database.IPersonDBChangeObserver;
 import de.morannon.e4jpa.database.PersonDBService;
+import de.morannon.e4jpa.database.PersonEvent;
 
 public class PersonDBServiceImpl implements PersonDBService
 {
-    // TODO: activate and deactivate: init and destroy entity manager
-
     private EntityManagerFactory emf;
     private EntityManager em;
+    private List<IPersonDBChangeObserver> observers;
+
+    @SuppressWarnings("unchecked")
+    protected void activate()
+    {
+        @SuppressWarnings("rawtypes")
+        Map map = new HashMap();
+        map.put( PersistenceUnitProperties.CLASSLOADER, getClass().getClassLoader() );
+
+        org.eclipse.persistence.jpa.PersistenceProvider persistenceProvider = new org.eclipse.persistence.jpa.PersistenceProvider();
+        emf = persistenceProvider.createEntityManagerFactory( "de.morannon.e4JPA", map );
+        em = emf.createEntityManager();
+
+        observers = new LinkedList<>();
+    }
+
+    protected void deactivate()
+    {
+        observers = null;
+        em.close();
+        emf.close();
+        em = null;
+        emf = null;
+    }
 
     @Override
     public void addPerson( Person person )
@@ -29,12 +54,16 @@ public class PersonDBServiceImpl implements PersonDBService
         em.getTransaction().begin();
         em.persist( person );
         em.getTransaction().commit();
+        sendEvent( PersonEvent.ADDED, person );
     }
 
     @Override
     public void modifyPerson( Person person )
     {
-        addPerson( person );
+        em.getTransaction().begin();
+        em.merge( person );
+        em.getTransaction().commit();
+        sendEvent( PersonEvent.CHANGED, person );
     }
 
     @Override
@@ -44,6 +73,7 @@ public class PersonDBServiceImpl implements PersonDBService
         Person find = em.find( Person.class, person.getId() );
         em.remove( find );
         em.getTransaction().commit();
+        sendEvent( PersonEvent.REMOVED, person );
     }
 
     @Override
@@ -59,24 +89,23 @@ public class PersonDBServiceImpl implements PersonDBService
         return resultList;
     }
 
-
-    @SuppressWarnings("unchecked")
-    protected void activate()
+    private void sendEvent( String eventID, Person affectedPerson )
     {
-        @SuppressWarnings("rawtypes")
-        Map map = new HashMap();
-        map.put( PersistenceUnitProperties.CLASSLOADER, getClass().getClassLoader() );
-
-        org.eclipse.persistence.jpa.PersistenceProvider persistenceProvider = new org.eclipse.persistence.jpa.PersistenceProvider();
-        emf = persistenceProvider.createEntityManagerFactory( "de.morannon.e4JPA", map );
-        em = emf.createEntityManager();
+        for( IPersonDBChangeObserver observer : observers )
+            observer.changed( eventID, affectedPerson );
     }
 
-    protected void deactivate()
+    @Override
+    public void registerPersonObserver( IPersonDBChangeObserver observer )
     {
-        em.close();
-        emf.close();
-        em = null;
-        emf = null;
+        if( !observers.contains( observer ) )
+            observers.add( observer );
+    }
+
+    @Override
+    public void unregisterPersonObserver( IPersonDBChangeObserver observer )
+    {
+        if( observers.contains( observer ) )
+            observers.remove( observer );
     }
 }

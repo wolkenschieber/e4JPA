@@ -37,7 +37,12 @@ public class Person
     {
         return id;
     }
-
+    
+    public void setId( int id )
+    {
+        this.id = id;
+    }
+    
     public String getFirstname()
     {
         return firstname;
@@ -75,7 +80,7 @@ public class Person
         StringBuilder sb = new StringBuilder();
         sb.append( "id: " + getId() ).append( separator );
         sb.append( "firstname: " + getFirstname() ).append( separator );
-        sb.append( "lastname" + getLastname() ).append( separator );
+        sb.append( "lastname: " + getLastname() ).append( separator );
         sb.append( "dateOfBirth: " + DateFormat.getDateInstance().format( getDateOfBirth().getTime() ) );
         return sb.toString();
     }
