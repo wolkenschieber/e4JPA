@@ -4,9 +4,17 @@ import java.text.DateFormat;
 import java.util.GregorianCalendar;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import javax.inject.Named;
 
+import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.Focus;
+import org.eclipse.e4.ui.services.IServiceConstants;
+import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
@@ -14,7 +22,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
+import de.morannon.e4JPA.client.rcp.serviceretrieval.Services;
 import de.morannon.e4JPA.domain.person.Person;
+import de.morannon.e4jpa.database.IPersonDBChangeObserver;
 
 public class PersonPart
 {
@@ -22,14 +32,18 @@ public class PersonPart
 
     private TableViewer viewer;
 
+    @Inject
+    private ESelectionService selectionService;
+
     @PostConstruct
     public void createControls( Composite parent )
     {
         viewer = new TableViewer( parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER );
 
-
         createColumns();
-        
+        addSelectionListener();
+        addDatabaseObserver();
+
         viewer.setContentProvider( new PersonsContentProvider() );
         viewer.setInput( new Object() );
 
@@ -117,6 +131,37 @@ public class PersonPart
                 DateFormat df = DateFormat.getDateInstance();
                 String formatted = df.format( dateOfBirth.getTime() );
                 return formatted;
+            }
+        } );
+    }
+
+    private void addSelectionListener()
+    {
+        viewer.addSelectionChangedListener( new ISelectionChangedListener()
+        {
+            @Override
+            public void selectionChanged( SelectionChangedEvent event )
+            {
+                IStructuredSelection selection = (IStructuredSelection)viewer.getSelection();
+                selectionService.setSelection( selection.getFirstElement() );
+            }
+        } );
+    }
+
+    @Inject
+    private void selectionChanged( @Optional @Named(IServiceConstants.ACTIVE_SELECTION) Person person )
+    {
+        //        System.out.println( "PersonPart.selectionChanged " + person );
+    }
+
+    private void addDatabaseObserver()
+    {
+        Services.getPersonService().registerPersonObserver( new IPersonDBChangeObserver()
+        {
+            @Override
+            public void changed( String eventID, Person affectedPerson )
+            {
+                refresh();
             }
         } );
     }
