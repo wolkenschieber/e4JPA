@@ -18,6 +18,8 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -30,10 +32,11 @@ public class PersonPart
 {
     public static final String ID = "de.morannon.e4jpa.client.rcp.part.persons";
 
-    private TableViewer viewer;
-
     @Inject
     private ESelectionService selectionService;
+
+    private TableViewer viewer;
+    private PersonViewerComparator viewerComparator;
 
     @PostConstruct
     public void createControls( Composite parent )
@@ -46,6 +49,8 @@ public class PersonPart
 
         viewer.setContentProvider( new PersonsContentProvider() );
         viewer.setInput( new Object() );
+        viewerComparator = new PersonViewerComparator();
+        viewer.setComparator( viewerComparator );
 
         Table table = viewer.getTable();
         table.setHeaderVisible( true );
@@ -67,6 +72,7 @@ public class PersonPart
         column.setWidth( 100 );
         column.setText( "ID" );
         column.setAlignment( SWT.RIGHT );
+        column.addSelectionListener( getSelectionAdapter( column, PersonViewerSortableColumns.id ) );
         viewerColumn.setLabelProvider( new ColumnLabelProvider()
         {
             @Override
@@ -83,8 +89,10 @@ public class PersonPart
         TableViewerColumn viewerColumn = new TableViewerColumn( viewer, SWT.NONE );
         TableColumn column = viewerColumn.getColumn();
         column.setWidth( 100 );
-        column.setText( "FirstName" );
+        column.setText( "First name" );
         column.setAlignment( SWT.LEFT );
+        column.addSelectionListener( getSelectionAdapter( column, PersonViewerSortableColumns.firstname ) );
+
         viewerColumn.setLabelProvider( new ColumnLabelProvider()
         {
             @Override
@@ -101,8 +109,10 @@ public class PersonPart
         TableViewerColumn viewerColumn = new TableViewerColumn( viewer, SWT.NONE );
         TableColumn column = viewerColumn.getColumn();
         column.setWidth( 100 );
-        column.setText( "LastName" );
+        column.setText( "Last name" );
         column.setAlignment( SWT.LEFT );
+        column.addSelectionListener( getSelectionAdapter( column, PersonViewerSortableColumns.lastname ) );
+        
         viewerColumn.setLabelProvider( new ColumnLabelProvider()
         {
             @Override
@@ -119,8 +129,10 @@ public class PersonPart
         TableViewerColumn viewerColumn = new TableViewerColumn( viewer, SWT.NONE );
         TableColumn column = viewerColumn.getColumn();
         column.setWidth( 100 );
-        column.setText( "Age" );
+        column.setText( "Date of birth" );
         column.setAlignment( SWT.RIGHT );
+        column.addSelectionListener( getSelectionAdapter( column, PersonViewerSortableColumns.dateOfBirth ) );
+
         viewerColumn.setLabelProvider( new ColumnLabelProvider()
         {
             @Override
@@ -133,6 +145,24 @@ public class PersonPart
                 return formatted;
             }
         } );
+    }
+
+    private SelectionAdapter getSelectionAdapter( final TableColumn column,
+        final PersonViewerSortableColumns sortableColumn )
+    {
+        SelectionAdapter selectionAdapter = new SelectionAdapter()
+        {
+            @Override
+            public void widgetSelected( SelectionEvent e )
+            {
+                viewerComparator.setColumn( sortableColumn );
+                
+                int dir = viewerComparator.getDirection();
+                viewer.getTable().setSortDirection( dir );
+                viewer.refresh();
+            }
+        };
+        return selectionAdapter;
     }
 
     private void addSelectionListener()
